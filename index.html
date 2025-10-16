@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cycle Boys - Safe Ride with Pride</title>
+<style>
+/* ===== Reset & Base ===== */
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif; scroll-behavior:smooth; }
+body { background:#f0f4f8; color:#333; overflow-x:hidden; }
+
+/* ===== Header ===== */
+header { 
+    background: linear-gradient(135deg,#1abc9c,#16a085); 
+    color:white; 
+    text-align:center; 
+    padding:80px 20px; 
+    position:relative; 
+    overflow:hidden;
+}
+header h1 { font-size:3em; margin-bottom:10px; animation:fadeDown 1s ease; }
+header p { font-style:italic; font-size:1.3em; animation:fadeUp 1s ease; }
+nav { text-align:center; margin-top:20px; }
+nav a { color:white; margin:0 15px; font-weight:bold; text-decoration:none; transition:0.3s; }
+nav a:hover { color:#f1c40f; transform:scale(1.1); }
+
+/* ===== Animated Cycles ===== */
+.cycle-icon { 
+    position:absolute; 
+    font-size:40px; 
+    animation:moveCycle 10s linear infinite; 
+}
+@keyframes moveCycle {
+    0% {transform:translateX(-100px) translateY(0) rotate(0deg);}
+    50% {transform:translateX(100vw) translateY(20px) rotate(360deg);}
+    100% {transform:translateX(-100px) translateY(0) rotate(720deg);}
+}
+
+/* ===== Container ===== */
+.container { max-width:600px; margin:40px auto; background:white; padding:30px; border-radius:15px; box-shadow:0 10px 25px rgba(0,0,0,0.15); animation:fadeIn 0.8s ease; }
+
+/* ===== Tabs ===== */
+.tabs { display:flex; justify-content:space-around; margin-bottom:20px; cursor:pointer; }
+.tab { padding:10px; border-bottom:3px solid transparent; transition:0.3s; }
+.tab.active { border-bottom:3px solid #1abc9c; font-weight:bold; color:#1abc9c; }
+
+/* ===== Forms ===== */
+form { display:flex; flex-direction:column; }
+input, textarea, button { margin:10px 0; padding:12px; border-radius:10px; border:1px solid #ccc; font-size:16px; transition:0.3s; }
+input:focus, textarea:focus { border-color:#1abc9c; box-shadow:0 0 10px rgba(26,188,156,0.4); outline:none; }
+textarea { resize:vertical; min-height:60px; }
+button { background:#1abc9c; color:white; font-weight:bold; border:none; cursor:pointer; }
+button:hover { background:#16a085; transform:scale(1.05); }
+
+/* ===== Subscription Emoji ===== */
+#subscriptionForm::before { content:"🚲"; font-size:60px; display:block; text-align:center; margin-bottom:15px; animation:bounce 1.2s infinite; }
+
+/* ===== Sections ===== */
+section { padding:80px 20px; max-width:900px; margin:auto; border-radius:15px; animation:fadeInUp 1s ease; margin-bottom:30px; }
+#about { background: linear-gradient(135deg,#f39c12,#f1c40f); color:white; }
+#subscribe { background:#ffffff; }
+#contact { background: linear-gradient(135deg,#3498db,#2980b9); color:white; }
+
+/* ===== Section Titles ===== */
+h2 { text-align:center; margin-bottom:30px; color:#1abc9c; }
+#about h2, #contact h2 { color:white; }
+
+/* ===== Contact Form ===== */
+#contactForm input, #contactForm textarea, #contactForm button { width:100%; }
+
+/* ===== Footer ===== */
+footer { text-align:center; margin:40px 0 20px; color:#777; }
+
+/* ===== Animations ===== */
+@keyframes fadeIn { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);} }
+@keyframes fadeDown { from {opacity:0; transform:translateY(-20px);} to {opacity:1; transform:translateY(0);} }
+@keyframes fadeUp { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
+@keyframes fadeInUp { from {opacity:0; transform:translateY(30px);} to {opacity:1; transform:translateY(0);} }
+@keyframes bounce { 0%, 100% {transform:translateY(0);} 50% {transform:translateY(-15px);} }
+
+/* ===== Responsive ===== */
+@media(max-width:600px){ header h1{font-size:2.2em;} .container, section{margin:20px 10px; padding:20px;} }
+</style>
+</head>
+<body>
+
+<header id="home">
+    <h1>Cycle Boys</h1>
+    <p>Safe Ride with Pride</p>
+    <nav>
+        <a href="#about">About Us</a>
+        <a href="#subscribe">Subscribe</a>
+        <a href="#contact">Contact Us</a>
+    </nav>
+    <!-- Animated cycle emojis -->
+    <div class="cycle-icon" style="top:50px; left:-50px;">🚲</div>
+    <div class="cycle-icon" style="top:120px; left:-100px;">🚲</div>
+    <div class="cycle-icon" style="top:200px; left:-200px;">🚲</div>
+</header>
+
+<!-- ===== About Us ===== -->
+<section id="about">
+    <h2>About Us</h2>
+    <p>
+        Cycle Boys is dedicated to providing students a safe, affordable, and eco-friendly way to commute within campus.  
+        We offer cycles on a subscription basis for just ₹12. Ride with pride, save the environment, and enjoy a healthy lifestyle!
+    </p>
+</section>
+
+<!-- ===== Subscription ===== -->
+<section id="subscribe">
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" onclick="showForm('login')">Login</div>
+            <div class="tab" onclick="showForm('signup')">Sign Up</div>
+        </div>
+
+        <div id="loginForm">
+            <form onsubmit="login(event)">
+                <input type="email" id="loginEmail" placeholder="Email" required>
+                <input type="password" id="loginPassword" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+
+        <div id="signupForm" style="display:none;">
+            <form onsubmit="signup(event)">
+                <input type="text" id="signupName" placeholder="Full Name" required>
+                <input type="email" id="signupEmail" placeholder="Email" required>
+                <input type="password" id="signupPassword" placeholder="Password" required>
+                <input type="password" id="signupConfirm" placeholder="Confirm Password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+
+        <div id="subscriptionForm" style="display:none;">
+            <form id="whatsappForm" onsubmit="subscribeWhatsApp(event)">
+                <input type="text" id="subName" placeholder="Name" required>
+                <input type="text" id="subDept" placeholder="Department" required>
+                <input type="text" id="subAddress" placeholder="Address" required>
+                <input type="text" id="subMobile" placeholder="Mobile Number" required>
+                <textarea id="subIssues" placeholder="Issues faced before taking cycle"></textarea>
+                <textarea id="subSuggestion" placeholder="Any suggestions"></textarea>
+                <button type="submit">Subscribe ₹12 via WhatsApp</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Contact Us ===== -->
+<section id="contact">
+    <h2>Contact Us</h2>
+    <p>Have questions or suggestions? Get in touch with us!</p>
+    <div class="container">
+        <form id="contactForm" onsubmit="contactSubmit(event)">
+            <input type="text" id="contactName" placeholder="Your Name" required>
+            <input type="email" id="contactEmail" placeholder="Your Email" required>
+            <textarea id="contactMessage" placeholder="Your Message" required></textarea>
+            <button type="submit">Send via WhatsApp</button>
+        </form>
+    </div>
+</section>
+
+<footer>
+    &copy; 2025 Cycle Boys. All rights reserved.
+</footer>
+
+<script>
+const whatsappNumber = "YOUR_NUMBER"; // Replace with your WhatsApp number in international format
+
+function showForm(form){
+    document.getElementById('loginForm').style.display = form==='login' ? 'block' : 'none';
+    document.getElementById('signupForm').style.display = form==='signup' ? 'block' : 'none';
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    if(form==='login') document.querySelector('.tab:nth-child(1)').classList.add('active');
+    else document.querySelector('.tab:nth-child(2)').classList.add('active');
+}
+
+function login(e){
+    e.preventDefault();
+    alert('Logged in successfully!');
+    showSubscription();
+}
+
+function signup(e){
+    e.preventDefault();
+    let pass = document.getElementById('signupPassword').value;
+    let confirm = document.getElementById('signupConfirm').value;
+    if(pass !== confirm){ alert("Passwords do not match!"); return; }
+    alert('Sign up successful!');
+    showSubscription();
+}
+
+function showSubscription(){
+    document.getElementById('loginForm').style.display='none';
+    document.getElementById('signupForm').style.display='none';
+    document.getElementById('subscriptionForm').style.display='block';
+}
+
+function subscribeWhatsApp(e){
+    e.preventDefault();
+    let name = document.getElementById('subName').value;
+    let dept = document.getElementById('subDept').value;
+    let address = document.getElementById('subAddress').value;
+    let mobile = document.getElementById('subMobile').value;
+    let issues = document.getElementById('subIssues').value || "None";
+    let suggestion = document.getElementById('subSuggestion').value || "None";
+
+    let message = `New Cycle Subscription:%0AName: ${name}%0ADepartment: ${dept}%0AAddress: ${address}%0AMobile: ${mobile}%0AIssues: ${issues}%0ASuggestion: ${suggestion}%0APayment: ₹12`;
+
+    let waLink = `https://wa.me/${whatsappNumber}?text=${message}`;
+    window.open(waLink, '_blank');
+}
+
+function contactSubmit(e){
+    e.preventDefault();
+    let name = document.getElementById('contactName').value;
+    let email = document.getElementById('contactEmail').value;
+    let message = document.getElementById('contactMessage').value;
+
+    let waMessage = `Contact Request:%0AName: ${name}%0AEmail: ${email}%0AMessage: ${message}`;
+    let waLink = `https://wa.me/${whatsappNumber}?text=${waMessage}`;
+    window.open(waLink, '_blank');
+}
+</script>
+
+</body>
+</html>
