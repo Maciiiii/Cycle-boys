@@ -494,42 +494,38 @@ function login(e){
     }
 }
 
-function forgotPassword() {
-  document.getElementById('forgotModal').style.display = 'flex';
-  document.getElementById('forgotEmail').value = '';
-  document.getElementById('forgotEmail').focus();
+
+
+// Forgot password modal controls
+function forgotPassword(){
+    document.getElementById('forgotModal').style.display = 'flex';
+    document.getElementById('forgotEmail').value = '';
+    document.getElementById('forgotEmail').focus();
 }
 
-function closeForgot() {
-  document.getElementById('forgotModal').style.display = 'none';
+function closeForgot(){
+    document.getElementById('forgotModal').style.display = 'none';
 }
 
-function sendForgotPassword() {
-  const email = document.getElementById('forgotEmail').value.trim();
-  if (!email) {
-    alert("Please enter your registered email.");
-    return;
-  }
-
-  let users = JSON.parse(localStorage.getItem(USERS_KEY) || "[]");
-  const user = users.find(u => u.email === email);
-
-  if (user) {
-    emailjs.send("service_erj1sub", "template_fvmwawq", {
-      name: user.name,
-      email: user.email,
-      message: `Your password is: ${user.password}`
-    }).then(() => {
-      alert("Password sent to your email!");
-      closeForgot();
-    }, err => {
-      console.error("EmailJS error:", err);
-      alert("Failed to send email. Try again later.");
-    });
-  } else {
-    alert("No account found with that email.");
-  }
+function sendForgotPassword(){
+    const email = document.getElementById('forgotEmail').value.trim();
+    if(!email){
+        alert("Please enter your email.");
+        return;
+    }
+    let users = JSON.parse(localStorage.getItem(USERS_KEY) || "[]");
+    let user = users.find(u => u.email === email);
+    if(user){
+        alert(`Your password is: ${user.password}`);
+        closeForgot();
+    } else {
+        alert("Email not found.");
+    }
 }
+
+
+
+
 
 function showSubscription(){
     document.getElementById('loginForm').style.display='none';
