@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cycle Boys - Safe Ride with Pride</title>
 <style>
-/* ===== Reset & Base ===== */
 * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif; scroll-behavior:smooth; }
 body { background:#f0f4f8; color:#333; overflow-x:hidden; }
 
@@ -52,9 +51,6 @@ textarea { resize:vertical; min-height:60px; }
 button { background:#1abc9c; color:white; font-weight:bold; border:none; cursor:pointer; }
 button:hover { background:#16a085; transform:scale(1.05); }
 
-/* ===== Subscription Emoji ===== */
-#subscriptionForm::before { content:"🚲"; font-size:60px; display:block; text-align:center; margin-bottom:15px; animation:bounce 1.2s infinite; }
-
 /* ===== Sections ===== */
 section { padding:80px 20px; max-width:900px; margin:auto; border-radius:15px; animation:fadeInUp 1s ease; margin-bottom:30px; }
 #about { background: linear-gradient(135deg,#f39c12,#f1c40f); color:white; }
@@ -64,9 +60,6 @@ section { padding:80px 20px; max-width:900px; margin:auto; border-radius:15px; a
 /* ===== Section Titles ===== */
 h2 { text-align:center; margin-bottom:30px; color:#1abc9c; }
 #about h2, #contact h2 { color:white; }
-
-/* ===== Contact Form ===== */
-#contactForm input, #contactForm textarea, #contactForm button { width:100%; }
 
 /* ===== Footer ===== */
 footer { text-align:center; margin:40px 0 20px; color:#777; }
@@ -92,13 +85,11 @@ footer { text-align:center; margin:40px 0 20px; color:#777; }
         <a href="#subscribe">Subscribe</a>
         <a href="#contact">Contact Us</a>
     </nav>
-    <!-- Animated cycle emojis -->
     <div class="cycle-icon" style="top:50px; left:-50px;">🚲</div>
     <div class="cycle-icon" style="top:120px; left:-100px;">🚲</div>
     <div class="cycle-icon" style="top:200px; left:-200px;">🚲</div>
 </header>
 
-<!-- ===== About Us ===== -->
 <section id="about">
     <h2>About Us</h2>
     <p>
@@ -107,7 +98,6 @@ footer { text-align:center; margin:40px 0 20px; color:#777; }
     </p>
 </section>
 
-<!-- ===== Subscription ===== -->
 <section id="subscribe">
     <div class="container">
         <div class="tabs">
@@ -147,7 +137,6 @@ footer { text-align:center; margin:40px 0 20px; color:#777; }
     </div>
 </section>
 
-<!-- ===== Contact Us ===== -->
 <section id="contact">
     <h2>Contact Us</h2>
     <p>Have questions or suggestions? Get in touch with us!</p>
@@ -166,7 +155,8 @@ footer { text-align:center; margin:40px 0 20px; color:#777; }
 </footer>
 
 <script>
-const whatsappNumber = "YOUR_NUMBER"; // Replace with your WhatsApp number in international format
+const whatsappNumber = "9177447842760"; // Replace with your WhatsApp number in international format
+const USERS_KEY = "cycleBoysUsers";
 
 function showForm(form){
     document.getElementById('loginForm').style.display = form==='login' ? 'block' : 'none';
@@ -176,27 +166,44 @@ function showForm(form){
     else document.querySelector('.tab:nth-child(2)').classList.add('active');
 }
 
-function login(e){
-    e.preventDefault();
-    alert('Logged in successfully!');
-    showSubscription();
-}
-
+// Sign up
 function signup(e){
     e.preventDefault();
-    let pass = document.getElementById('signupPassword').value;
-    let confirm = document.getElementById('signupConfirm').value;
-    if(pass !== confirm){ alert("Passwords do not match!"); return; }
-    alert('Sign up successful!');
-    showSubscription();
+    const name = document.getElementById('signupName').value;
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+    const confirm = document.getElementById('signupConfirm').value;
+
+    if(password !== confirm){ alert("Passwords do not match!"); return; }
+
+    let users = JSON.parse(localStorage.getItem(USERS_KEY) || "[]");
+    if(users.find(u => u.email === email)){ alert("Email already registered!"); showForm('login'); return; }
+
+    users.push({name,email,password});
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    alert("Sign up successful! You can now login.");
+    showForm('login');
 }
 
+// Login
+function login(e){
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    let users = JSON.parse(localStorage.getItem(USERS_KEY) || "[]");
+    const user = users.find(u => u.email===email && u.password===password);
+    if(user){ alert(`Welcome ${user.name}!`); showSubscription(); }
+    else{ alert("Wrong email or password!"); }
+}
+
+// Show subscription form
 function showSubscription(){
     document.getElementById('loginForm').style.display='none';
     document.getElementById('signupForm').style.display='none';
     document.getElementById('subscriptionForm').style.display='block';
 }
 
+// Subscription form
 function subscribeWhatsApp(e){
     e.preventDefault();
     let name = document.getElementById('subName').value;
@@ -206,21 +213,34 @@ function subscribeWhatsApp(e){
     let issues = document.getElementById('subIssues').value || "None";
     let suggestion = document.getElementById('subSuggestion').value || "None";
 
-    let message = `New Cycle Subscription:%0AName: ${name}%0ADepartment: ${dept}%0AAddress: ${address}%0AMobile: ${mobile}%0AIssues: ${issues}%0ASuggestion: ${suggestion}%0APayment: ₹12`;
+    let message = `New Cycle Subscription:
+Name: ${name}
+Department: ${dept}
+Address: ${address}
+Mobile: ${mobile}
+Issues: ${issues}
+Suggestion: ${suggestion}
+Payment: ₹12`;
 
-    let waLink = `https://wa.me/${whatsappNumber}?text=${message}`;
-    window.open(waLink, '_blank');
+    let waLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(waLink,'_blank');
+    document.getElementById('whatsappForm').reset();
 }
 
+// Contact form
 function contactSubmit(e){
     e.preventDefault();
     let name = document.getElementById('contactName').value;
     let email = document.getElementById('contactEmail').value;
     let message = document.getElementById('contactMessage').value;
 
-    let waMessage = `Contact Request:%0AName: ${name}%0AEmail: ${email}%0AMessage: ${message}`;
-    let waLink = `https://wa.me/${whatsappNumber}?text=${waMessage}`;
-    window.open(waLink, '_blank');
+    let waMessage = `Contact Request:
+Name: ${name}
+Email: ${email}
+Message: ${message}`;
+    let waLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(waMessage)}`;
+    window.open(waLink,'_blank');
+    document.getElementById('contactForm').reset();
 }
 </script>
 
