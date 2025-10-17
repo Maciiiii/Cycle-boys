@@ -217,6 +217,73 @@ nav a:hover { color:#f1c40f; transform:scale(1.1); }
   to { transform: rotateY(360deg); }
 }
 
+
+ /* Blinking ₹9 */
+  .blink {
+    font-size: 2.5em;
+    color: #007bff; /* EkoMax blue */
+    font-weight: bold;
+    animation: blink 1s infinite;
+    text-shadow: 0 0 10px #007bff;
+  }
+
+  @keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
+  }
+
+  /* Cycle styling */
+  .cycle {
+    display: inline-block;
+    font-size: 2em;
+    margin-left: 5px;
+    position: relative;
+    animation: ride 2s linear infinite;
+    filter: drop-shadow(0 0 8px #007bff);
+  }
+
+  /* Cycle motion */
+  @keyframes ride {
+    0% {
+      transform: translateX(0);
+      filter: drop-shadow(0 0 0 #007bff);
+    }
+    50% {
+      transform: translateX(150px);
+      filter: drop-shadow(-10px 0 15px rgba(0, 123, 255, 0.6));
+    }
+    100% {
+      transform: translateX(0);
+      filter: drop-shadow(0 0 0 #007bff);
+    }
+  }
+
+  /* Trail effect */
+  .cycle::after {
+    content: "";
+    position: absolute;
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(to right, rgba(0, 123, 255, 0.6), transparent);
+    top: 50%;
+    left: -40px;
+    transform: translateY(-50%);
+    opacity: 0;
+    animation: trail 2s linear infinite;
+  }
+
+  @keyframes trail {
+    0% { opacity: 0; }
+    20% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 0; }
+  }
+
+  h1 {
+    display: inline-block;
+    margin: 0;
+      }
+
 .container { max-width:600px; margin:40px auto; background:white; padding:30px; border-radius:15px; box-shadow:0 10px 25px rgba(0,0,0,0.15); animation:fadeIn 0.8s ease; }
 
 .tabs { display:flex; justify-content:space-around; margin-bottom:20px; cursor:pointer; }
@@ -312,6 +379,8 @@ footer { text-align:center; margin:40px 0 20px; color:#777; }
 #forgotModal .modal-close:hover {
   color: #1abc9c;
 }
+
+
 </style>
 </head>
 <body>
@@ -359,7 +428,9 @@ footer { text-align:center; margin:40px 0 20px; color:#777; }
     <h2>About Us</h2>
     <p>
         EkoMax is dedicated to providing students a safe, affordable, and eco-friendly way to commute within campus.  
-        We offer cycles on a subscription basis for just ₹9. Ride with pride, save the environment, and enjoy a healthy lifestyle!
+        We offer cycles on a subscription basis for just   <h1>
+      ₹<span class="blink">9</span><span class="cycle">🚲</span>
+    </h1>  <br>  Ride with pride, save the environment, and enjoy a healthy lifestyle!
     </p>
 </section>
 
@@ -399,7 +470,7 @@ footer { text-align:center; margin:40px 0 20px; color:#777; }
                 <input type="text" id="subMobile" placeholder="Mobile Number" required>
                 <textarea id="subIssues" placeholder="Issues faced before taking cycle"></textarea>
                 <textarea id="subSuggestion" placeholder="Any suggestions"></textarea>
-                <button type="submit">Subscribe ₹12 via WhatsApp</button>
+                <button type="submit">Subscribe ₹9 via WhatsApp</button>
             </form>
         </div>
     </div>
